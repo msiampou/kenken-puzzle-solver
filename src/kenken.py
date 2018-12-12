@@ -182,7 +182,7 @@ class Model():
         for i in range(size):
             for j in range(size):
                 string = 'x' + str(i) + str(j)
-                print(str(dic[string])," ")
+                print(str(dic[string]),end = " ")
             print()
 
 
