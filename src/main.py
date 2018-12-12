@@ -5,7 +5,6 @@ from functools import reduce
 
 class KenKen(CSP):
     def __init__(self,variables,domains,neighbors,data):
-
         self.variables = variables
         self.domains = domains
         self.neighbors = neighbors
@@ -18,8 +17,7 @@ class KenKen(CSP):
         if a==b:
             return False
 
-        xA = 0
-        xB = 0
+        xA = xB = 0
         vars = len(self.data[2])
         for pos in range(vars):
             if A in self.data[2][pos]:
@@ -54,8 +52,7 @@ class KenKen(CSP):
     def blank(self,val,x):
         if self.data[0][x] == val:
             return True
-        else:
-            return False
+        return False
 
     def add(self,var,val,x):
         vars=[]
@@ -122,7 +119,6 @@ class KenKen(CSP):
 class Model():
 
     def __init__(self,lines,size):
-
         self.variables = self.getVariables(size)
         self.values = self.getValues(size)
         self.domains = self.getDomains()
@@ -160,7 +156,6 @@ class Model():
         return dictionary
 
     def getData(self,size,lines):
-
         operations = []
         variables = []
         values = []
@@ -187,7 +182,7 @@ class Model():
         for i in range(size):
             for j in range(size):
                 string = 'x' + str(i) + str(j)
-                sys.stdout.write(str(dic[string]) + " ")
+                print(str(dic[string])," ")
             print()
 
 
