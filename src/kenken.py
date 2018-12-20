@@ -1,6 +1,7 @@
 from csp import*
 import re
 import sys
+import time
 from functools import reduce
 
 class KenKen(CSP):
@@ -37,7 +38,7 @@ class KenKen(CSP):
             c1 =  self.mult(A,a,xA)
 
         if self.data[1][xB] == "''":
-            c1 = self.blank(b,xB)
+            c2 = self.blank(b,xB)
         elif self.data[1][xB] == '+':
             c2 = self.add(B,b,xB)
         elif self.data[1][xB] == '-':
@@ -105,19 +106,30 @@ class KenKen(CSP):
             return False
 
     def BT(self):
-        start = int(round(time.time() * 1000))
+        start = int(round(time.time()*1000))
         result = backtracking_search(self)
-	    end = int(round(time.time() * 1000))
+        end = int(round(time.time()*1000))
         return (result,start-end)
     def BT_MRV(self):
-        return backtracking_search(self, select_unassigned_variable=mrv)
+        start = int(round(time.time()*1000))
+        result = backtracking_search(self, select_unassigned_variable=mrv)
+        end = int(round(time.time()*1000))
+        return (result,start-end)
     def FC(self):
-        return (backtracking_search(self, inference=forward_checking))
+        start = int(round(time.time()*1000))
+        result = (backtracking_search(self, inference=forward_checking))
+        end = int(round(time.time()*1000))
+        return (result,start-end)
     def FC_MRV(self):
-        return (backtracking_search(self, select_unassigned_variable=mrv, inference=forward_checking))
+        start = int(round(time.time()*1000))
+        result = (backtracking_search(self, select_unassigned_variable=mrv, inference=forward_checking))
+        end = int(round(time.time()*1000))
+        return (result,start-end)
     def MAC(self):
-        return (backtracking_search(self, inference=mac))
-
+        start = int(round(time.time()*1000))
+        result = (backtracking_search(self, inference=mac))
+        end = int(round(time.time()*1000))
+        return (result,start-end)
 
 class Model():
 
@@ -185,8 +197,9 @@ class Model():
         for i in range(size):
             for j in range(size):
                 string = 'x' + str(i) + str(j)
-                print(str(dic[string]),end = " ")
+                print(str(dic[0][string]),end = " ")
             print()
+        print("Solved in ", dic[1]," msec")
 
 
 if __name__ == '__main__':
@@ -200,7 +213,7 @@ if __name__ == '__main__':
 
     print("\n\n------ SOLVING A 2 X 2 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT()[0], size)
+    m.display(kenken.BT(), size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
@@ -219,7 +232,7 @@ if __name__ == '__main__':
 
     print("\n\n------ SOLVING A 4 X 4 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT()[0], size)
+    m.display(kenken.BT(), size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
@@ -238,7 +251,7 @@ if __name__ == '__main__':
     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT()[0], size)
+    m.display(kenken.BT(), size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
