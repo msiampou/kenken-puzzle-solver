@@ -105,7 +105,10 @@ class KenKen(CSP):
             return False
 
     def BT(self):
-        return backtracking_search(self)
+        start = int(round(time.time() * 1000))
+        result = backtracking_search(self)
+	    end = int(round(time.time() * 1000))
+        return (result,start-end)
     def BT_MRV(self):
         return backtracking_search(self, select_unassigned_variable=mrv)
     def FC(self):
@@ -197,7 +200,7 @@ if __name__ == '__main__':
 
     print("\n\n------ SOLVING A 2 X 2 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT()[0], size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
@@ -216,7 +219,7 @@ if __name__ == '__main__':
 
     print("\n\n------ SOLVING A 4 X 4 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT()[0], size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
@@ -235,7 +238,7 @@ if __name__ == '__main__':
     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT()[0], size)
     print("\nUsing BT and MRV algorithms:")
     m.display(kenken.BT_MRV(), size)
     print("\nUsing FC algorithm:")
@@ -245,21 +248,21 @@ if __name__ == '__main__':
     print("\nUsing MAC algorithm:")
     m.display(kenken.MAC(), size)
 
-    print("\n\n------ SOLVING A 8 X 8 PUZZLE ------")
-    with open("../input/k8.kk", 'r') as f:
-        size = 8
-        lines = f.readlines()
-    f.close()
-    m = Model(lines,size)
-    kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
+#     print("\n\n------ SOLVING A 8 X 8 PUZZLE ------")
+#     with open("../input/k8.kk", 'r') as f:
+#         size = 8
+#         lines = f.readlines()
+#     f.close()
+#     m = Model(lines,size)
+#     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
-    print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
-    print("\nUsing BT and MRV algorithms:")
-    m.display(kenken.BT_MRV(), size)
-    print("\nUsing FC algorithm:")
-    m.display(kenken.FC(), size)
-    print("\nUsing FC and MRV algorithms:")
-    m.display(kenken.FC_MRV(), size)
-    print("\nUsing MAC algorithm:")
-    m.display(kenken.MAC(), size)
+#     print("\nUsing BT algorithm:")
+#     m.display(kenken.BT(), size)
+#     print("\nUsing BT and MRV algorithms:")
+#     m.display(kenken.BT_MRV(), size)
+#     print("\nUsing FC algorithm:")
+#     m.display(kenken.FC(), size)
+#     print("\nUsing FC and MRV algorithms:")
+#     m.display(kenken.FC_MRV(), size)
+#     print("\nUsing MAC algorithm:")
+#     m.display(kenken.MAC(), size)
