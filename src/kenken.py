@@ -109,27 +109,31 @@ class KenKen(CSP):
         start = int(round(time.time()*1000))
         result = backtracking_search(self)
         end = int(round(time.time()*1000))
-        return (result,start-end)
+        return (result,end-start)
+
     def BT_MRV(self):
         start = int(round(time.time()*1000))
         result = backtracking_search(self, select_unassigned_variable=mrv)
         end = int(round(time.time()*1000))
-        return (result,start-end)
+        return (result,end-start)
+
     def FC(self):
         start = int(round(time.time()*1000))
         result = (backtracking_search(self, inference=forward_checking))
         end = int(round(time.time()*1000))
-        return (result,start-end)
+        return (result,end-start)
+
     def FC_MRV(self):
         start = int(round(time.time()*1000))
         result = (backtracking_search(self, select_unassigned_variable=mrv, inference=forward_checking))
         end = int(round(time.time()*1000))
-        return (result,start-end)
+        return (result,end-start)
+
     def MAC(self):
         start = int(round(time.time()*1000))
-        result = (backtracking_search(self, inference=mac))
+        result = (backtracking_search(self, select_unassigned_variable=mrv, inference=mac))
         end = int(round(time.time()*1000))
-        return (result,start-end)
+        return (result,end-start)
 
 class Model():
 
@@ -193,17 +197,20 @@ class Model():
             operations.append(op)
         return [values,operations,variables]
 
-    def display(self, dic, size):
+    def display(self, dic, assigns, size):
         for i in range(size):
             for j in range(size):
                 string = 'x' + str(i) + str(j)
                 print(str(dic[0][string]),end = " ")
             print()
-        print("Solved in ", dic[1]," msec")
-
+        print()
+        print("Solved in", dic[1],"msec")
+        print(assigns, "total assignments")
+        print()
 
 if __name__ == '__main__':
 
+    print("\n\n------ SOLVING A 2 X 2 PUZZLE ------")
     with open("../input/k2.kk", 'r') as f:
         size = 2
         lines = f.readlines()
@@ -211,18 +218,18 @@ if __name__ == '__main__':
     m = Model(lines,size)
     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
-    print("\n\n------ SOLVING A 2 X 2 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT(), kenken.nassigns, size)
     print("\nUsing BT and MRV algorithms:")
-    m.display(kenken.BT_MRV(), size)
+    m.display(kenken.BT_MRV(), kenken.nassigns, size)
     print("\nUsing FC algorithm:")
-    m.display(kenken.FC(), size)
+    m.display(kenken.FC(), kenken.nassigns, size)
     print("\nUsing FC and MRV algorithms:")
-    m.display(kenken.FC_MRV(), size)
+    m.display(kenken.FC_MRV(), kenken.nassigns, size)
     print("\nUsing MAC algorithm:")
-    m.display(kenken.MAC(), size)
+    m.display(kenken.MAC(), kenken.nassigns, size)
 
+    print("\n\n------ SOLVING A 4 X 4 PUZZLE ------")
     with open("../input/k4.kk", 'r') as f:
         size = 4
         lines = f.readlines()
@@ -230,17 +237,35 @@ if __name__ == '__main__':
     m = Model(lines,size)
     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
-    print("\n\n------ SOLVING A 4 X 4 PUZZLE ------")
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT(), kenken.nassigns, size)
     print("\nUsing BT and MRV algorithms:")
-    m.display(kenken.BT_MRV(), size)
+    m.display(kenken.BT_MRV(), kenken.nassigns, size)
     print("\nUsing FC algorithm:")
-    m.display(kenken.FC(), size)
+    m.display(kenken.FC(), kenken.nassigns, size)
     print("\nUsing FC and MRV algorithms:")
-    m.display(kenken.FC_MRV(), size)
+    m.display(kenken.FC_MRV(), kenken.nassigns, size)
     print("\nUsing MAC algorithm:")
-    m.display(kenken.MAC(), size)
+    m.display(kenken.MAC(), kenken.nassigns, size)
+
+    print("\n\n------ SOLVING A 5 X 5 PUZZLE ------")
+    with open("../input/k5.kk", 'r') as f:
+        size = 5
+        lines = f.readlines()
+    f.close()
+    m = Model(lines,size)
+    kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
+
+    print("\nUsing BT algorithm:")
+    m.display(kenken.BT(), kenken.nassigns, size)
+    print("\nUsing BT and MRV algorithms:")
+    m.display(kenken.BT_MRV(), kenken.nassigns, size)
+    print("\nUsing FC algorithm:")
+    m.display(kenken.FC(), kenken.nassigns, size)
+    print("\nUsing FC and MRV algorithms:")
+    m.display(kenken.FC_MRV(), kenken.nassigns, size)
+    print("\nUsing MAC algorithm:")
+    m.display(kenken.MAC(), kenken.nassigns, size)
 
     print("\n\n------ SOLVING A 6 X 6 PUZZLE ------")
     with open("../input/k6.kk", 'r') as f:
@@ -251,31 +276,31 @@ if __name__ == '__main__':
     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
     print("\nUsing BT algorithm:")
-    m.display(kenken.BT(), size)
+    m.display(kenken.BT(), kenken.nassigns, size)
     print("\nUsing BT and MRV algorithms:")
-    m.display(kenken.BT_MRV(), size)
+    m.display(kenken.BT_MRV(), kenken.nassigns, size)
     print("\nUsing FC algorithm:")
-    m.display(kenken.FC(), size)
+    m.display(kenken.FC(), kenken.nassigns, size)
     print("\nUsing FC and MRV algorithms:")
-    m.display(kenken.FC_MRV(), size)
+    m.display(kenken.FC_MRV(), kenken.nassigns, size)
     print("\nUsing MAC algorithm:")
-    m.display(kenken.MAC(), size)
+    m.display(kenken.MAC(), kenken.nassigns, size)
 
-#     print("\n\n------ SOLVING A 8 X 8 PUZZLE ------")
-#     with open("../input/k8.kk", 'r') as f:
-#         size = 8
-#         lines = f.readlines()
-#     f.close()
-#     m = Model(lines,size)
-#     kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
+    print("\n\n------ SOLVING A 8 X 8 PUZZLE ------")
+    with open("../input/k8.kk", 'r') as f:
+        size = 8
+        lines = f.readlines()
+    f.close()
+    m = Model(lines,size)
+    kenken = KenKen(m.variables,m.domains,m.neighbors,m.getData(size,lines))
 
-#     print("\nUsing BT algorithm:")
-#     m.display(kenken.BT(), size)
-#     print("\nUsing BT and MRV algorithms:")
-#     m.display(kenken.BT_MRV(), size)
-#     print("\nUsing FC algorithm:")
-#     m.display(kenken.FC(), size)
-#     print("\nUsing FC and MRV algorithms:")
-#     m.display(kenken.FC_MRV(), size)
-#     print("\nUsing MAC algorithm:")
-#     m.display(kenken.MAC(), size)
+    print("\nUsing BT algorithm:")
+    m.display(kenken.BT(), kenken.nassigns, size)
+    print("\nUsing BT and MRV algorithms:")
+    m.display(kenken.BT_MRV(), kenken.nassigns, size)
+    print("\nUsing FC algorithm:")
+    m.display(kenken.FC(), kenken.nassigns, size)
+    print("\nUsing FC and MRV algorithms:")
+    m.display(kenken.FC_MRV(), kenken.nassigns, size)
+    print("\nUsing MAC algorithm:")
+    m.display(kenken.MAC(), kenken.nassigns, size)
