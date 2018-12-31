@@ -7,3 +7,6 @@ A KenKen puzzle solver taking advantage of Constraint Satisfaction Problem (CSP)
 
 ### Running
 ``` python3 kenken.py ```
+
+### References
+[aima-python](https://github.com/msiampou/aima-python)
